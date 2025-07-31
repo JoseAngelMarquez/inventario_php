@@ -16,7 +16,17 @@ class LoginController {
             if ($usuarioEncontrado['contrasena'] === $contrasena) {
                 $_SESSION['id_usuario'] = $usuarioEncontrado['id'];
                 $_SESSION['rol'] = $usuarioEncontrado['rol'];
-                return "Bienvenido, {$usuarioEncontrado['rol']}. Tu ID es: {$usuarioEncontrado['id']}";
+                 // Redirigir según el rol
+                 switch ($usuarioEncontrado['rol']) {
+                    case 'admin':
+                    case 'prestamista':
+                        header("Location: ../views/admin/prestamos.php");
+                        break;
+                    default:
+                        header("Location: ../views/error.php");
+                }
+
+                exit(); 
             } else {
                 return "Contraseña incorrecta.";
             }
