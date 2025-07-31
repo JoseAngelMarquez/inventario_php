@@ -8,12 +8,12 @@ class Usuario {
         $this->conexion = $conexion;
     }
 
-    public function verificarUsuario($usuario, $contrasena) {
-        $sql = "SELECT * FROM usuarios WHERE usuario = ? AND contrasena = ?";
+    public function obtenerUsuarioPorNombre($usuario) {
+        $sql = "SELECT * FROM usuarios WHERE usuario = ?";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->bind_param("ss", $usuario, $contrasena);
+        $stmt->bind_param("s", $usuario);
         $stmt->execute();
-        $resultado = $stmt->get_result();
-        return $resultado->fetch_assoc(); // Retorna el usuario como array asociativo o false
+        return $stmt->get_result()->fetch_assoc();
     }
 }
+?>
