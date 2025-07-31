@@ -9,7 +9,7 @@
 /* Barra superior */
 .top-bar {
     width: 100%;
-    height: 60px;
+    height: 10vh;
     background-color: #56070C;
     color: white;
     display: flex;
@@ -29,8 +29,8 @@
     align-items: center;
 }
 
-.logo-section img.unsis {
-    width: 40px;
+.logo-section img.uaeh {
+    width: 20vh;
     height: auto;
     margin-right: 10px;
 }
@@ -49,22 +49,9 @@
 .user-section i.avatar {
     font-size: 30px;
     margin-right: 10px;
-    color: #007bff;
+    color: #ffffff;
 }
 
-.user-button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.user-button:hover {
-    background-color: #0056b3;
-}
 
 /* Contenedor general */
 .container {

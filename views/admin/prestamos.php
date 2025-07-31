@@ -30,12 +30,11 @@
         <div class="main-content">
             <div class="top-bar">
                 <div class="logo-section">
-                <img class="unsis" src="/Proyecto_web/assets/img/unsis.png" alt="">
+                <img class="uaeh" src="/asset/img/logo_uaeh.png" alt="icono uaeh" width="250">
                 <span class="software-name">uaeh</span>
                 </div>
                 <div class="user-section">
                     <i class="fas fa-user-circle avatar"></i>
-                    <button class="user-button" >Perfil</button>
                 </div>
             </div>
 
