@@ -18,10 +18,8 @@
         <nav class="sidebar">
             <ul>
                 <li><a href="inicio.php"><i class="fas fa-home"></i> Inicio</a></li>
-                <li><a href="Solicitar_asesoria.php"><i class="fas fa-chart-line"></i> Solicitar asesorias</a></li>
-                <li><a href="misasesorias.php"><i class="fas fa-users"></i> Mis asesorías</a></li>
-                <li><a href="encuesta.php"><i class="fas fa-cogs"></i> Encuesta</a></li>
-                <li><a href="perfil.php"><i class="fas fa-question-circle"></i> Perfil</a></li>
+                <li><a href="agregarUsuarios.php"><i class="fas fa-chart-line"></i> Solicitar asesorias</a></li>
+                <li><a href="prestamos.php"><i class="fas fa-users"></i> Mis asesorías</a></li>
             </ul>
             <div class="logout">
                 <a href="#"><i class="fas fa-sign-out-alt"></i> Salir</a>
@@ -33,7 +31,7 @@
             <div class="top-bar">
                 <div class="logo-section">
                 <img class="unsis" src="/Proyecto_web/assets/img/unsis.png" alt="">
-                <span class="software-name">UNSIS BOOST</span>
+                <span class="software-name">uaeh</span>
                 </div>
                 <div class="user-section">
                     <i class="fas fa-user-circle avatar"></i>
