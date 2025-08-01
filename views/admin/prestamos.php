@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
+require_once __DIR__ . '/views/login.php';
+    exit();
+}
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -34,6 +42,8 @@
                 <div class="logo-section">
                 <img class="uaeh" src="/asset/img/logo_uaeh.png" alt="icono uaeh" width="250">
                 <span class="software-name">uaeh</span>
+
+                <h6>Bienvenido <?= htmlspecialchars($_SESSION['usuario']) ?></h6>
                 </div>
                 <div class="user-section">
                     <i class="fas fa-user-circle avatar"></i>

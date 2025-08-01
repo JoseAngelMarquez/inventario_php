@@ -5,7 +5,7 @@ class Usuario {
     private $conexion;
 
     public function __construct() {
-        global $conexion;  // usar la variable global definida en conexion.php
+        global $conexion;  
         $this->conexion = $conexion;
     }
 

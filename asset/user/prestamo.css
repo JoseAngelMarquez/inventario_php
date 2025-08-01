@@ -20,7 +20,6 @@
     top: 0;
     left: 0;
     z-index: 1000;
-   /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
 }
 
 /* Sección izquierda de la barra superior */
@@ -51,7 +50,6 @@
     margin-right: 10px;
     color: #ffffff;
 }
-
 
 /* Contenedor general */
 .container {
@@ -125,13 +123,26 @@
     color: #000000;
     justify-content: center;
 }
+
 .content {
     padding: 20px;
 }
 
 .content table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: collapse; 
     margin-top: 20px;
+}
+
+.content table, 
+.content th, 
+.content td {
+    border: 1px solid #000; 
+}
+
+.content th, 
+.content td {
+    padding: 8px; 
+    text-align: left;
 }
 
