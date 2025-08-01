@@ -16,7 +16,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/asset/user/prestamo.css">
     
-    <title>Historial de préstamos</title>
+    <title>Página principal de asesorías</title>
   
 </head>
 
@@ -25,8 +25,8 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
         <!-- Menú lateral izquierdo -->
         <nav class="sidebar">
             <ul>
-                <li><a href=""><i class="fas fa-home"></i> Inicio</a></li>
-                <li><a href="controlUsuarios.php"><i class="fas fa-users"></i> Control de usuarios</a></li>
+                <li><a href="prestamos.php"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="agregarUsuarios.php"><i class="fas fa-users"></i> Control de usuarios</a></li>
                 <li><a href="prestamos.php"><i class="fas fa-chart-line"></i> Préstamos</a></li>
             </ul>
             <div class="logout">
