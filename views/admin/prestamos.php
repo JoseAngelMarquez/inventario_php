@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
-require_once __DIR__ . '/views/login.php';
+    require_once __DIR__ . '/../login.php';
     exit();
 }
 ?>
@@ -25,7 +25,7 @@ require_once __DIR__ . '/views/login.php';
         <!-- Menú lateral izquierdo -->
         <nav class="sidebar">
             <ul>
-                <li><a href="inicio.php"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href=""><i class="fas fa-home"></i> Inicio</a></li>
                 <li><a href="agregarUsuarios.php"><i class="fas fa-users"></i> Control de usuarios</a></li>
                 <li><a href="prestamos.php"><i class="fas fa-chart-line"></i> Préstamos</a></li>
             </ul>
