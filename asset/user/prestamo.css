@@ -88,7 +88,7 @@
 }
 
 .sidebar ul li a:hover {
-    background-color: #1a252f;
+    background-color: #8F3D38;
 }
 
 /* Botón de salir */
@@ -107,7 +107,7 @@
 }
 
 .logout a:hover {
-    background-color: #1a252f;
+    background-color: #8F3D38;
 }
 
 /* Contenido principal */
@@ -117,3 +117,21 @@
     padding: 20px;
     overflow-y: auto;
 }
+
+.h1 {
+    display: flex;
+    font-size: 5vh;
+    margin: 2vh;
+    color: #000000;
+    justify-content: center;
+}
+.content {
+    padding: 20px;
+}
+
+.content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+

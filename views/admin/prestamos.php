@@ -18,8 +18,8 @@
         <nav class="sidebar">
             <ul>
                 <li><a href="inicio.php"><i class="fas fa-home"></i> Inicio</a></li>
-                <li><a href="agregarUsuarios.php"><i class="fas fa-chart-line"></i> Solicitar asesorias</a></li>
-                <li><a href="prestamos.php"><i class="fas fa-users"></i> Mis asesorías</a></li>
+                <li><a href="agregarUsuarios.php"><i class="fas fa-users"></i> Control de usuarios</a></li>
+                <li><a href="prestamos.php"><i class="fas fa-chart-line"></i> Préstamos</a></li>
             </ul>
             <div class="logout">
                 <a href="#"><i class="fas fa-sign-out-alt"></i> Salir</a>
@@ -40,7 +40,23 @@
 
             <!-- Resto del contenido -->
             <div class="content">
-                <h1>Bienvenido</h1>
+                <h1 class="h1">Materiales préstados</h1>
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Usuario</th>
+                                <th>Material prestado</th>
+                                <th>Fecha de préstamo</th>
+                                <th>Estado</th>
+                                <th>Cantidad</th>
+                                <th>Solicitante</th>
+                                <th>Finalización</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
 
                
         </div>

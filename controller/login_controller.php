@@ -4,34 +4,34 @@ require_once __DIR__ . '/../model/Usuario.php';
 class LoginController {
     private $usuarioModel;
 
-    public function __construct($conexion) {
-        $this->usuarioModel = new Usuario($conexion);
+    public function __construct() {
+        $this->usuarioModel = new Usuario();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     }
 
     public function login($usuario, $contrasena) {
-        session_start();
         $usuarioEncontrado = $this->usuarioModel->obtenerUsuarioPorNombre($usuario);
 
         if ($usuarioEncontrado) {
             if ($usuarioEncontrado['contrasena'] === $contrasena) {
                 $_SESSION['id_usuario'] = $usuarioEncontrado['id'];
+                $_SESSION['usuario'] = $usuarioEncontrado['usuario'];
                 $_SESSION['rol'] = $usuarioEncontrado['rol'];
-                 // Redirigir según el rol
-                 switch ($usuarioEncontrado['rol']) {
-                    case 'admin':
-                    case 'prestamista':
-                        header("Location: ../views/admin/prestamos.php");
-                        break;
-                    default:
-                        header("Location: ../views/error.php");
-                }
 
-                exit(); 
+                // Redirección según el rol
+                if ($_SESSION['rol'] === 'admin') {
+                    header('Location: /views/admin/prestamos.php');
+                } else if ($_SESSION['rol'] === 'prestamista') {
+                    header('Location: /views/prestamista/panel.php');
+                }
+                exit(); // ¡Importante!
             } else {
-                return "Contraseña incorrecta.";
+                return [false, "Contraseña incorrecta"];
             }
         } else {
-            return "Usuario no encontrado.";
+            return [false, "Usuario no encontrado"];
         }
     }
 }

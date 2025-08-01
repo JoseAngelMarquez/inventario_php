@@ -1,10 +1,29 @@
+<?php
+// Iniciar sesión solo si no está iniciada
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+require_once __DIR__ . '/../controller/login_controller.php';
+
+$mensaje = '';
+
+// Procesar formulario
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $usuario = $_POST['usuario'];
+    $contrasena = $_POST['contrasena'];
+
+    $loginController = new LoginController();
+    list($exito, $mensaje) = $loginController->login($usuario, $contrasena);
+}
+?>
+
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/asset/login/login.css">
-    <title>Inicio de sesión</title>
     <meta charset="UTF-8">
+    <title>Inicio de Sesión</title>
 </head>
 <body>
     <div class="container">
@@ -24,15 +43,14 @@
                 <button type="submit">Ingresar</button>
             </form>
 
-            <?php if (!empty($mensaje)) echo "<p>$mensaje</p>"; ?>
+    <?php if (!empty($mensaje)) : ?>
+        <p style="color: <?= $exito ? 'green' : 'red' ?>;">
+            <?= htmlspecialchars($mensaje) ?>
+        </p>
+    <?php endif; ?>
 
-            <?php
-            if (isset($_SESSION['id_usuario'])) {
-                echo "<p>Sesión activa - ID Usuario: " . $_SESSION['id_usuario'] . ", Rol: " . $_SESSION['rol'] . "</p>";
-            }
-            ?>
-        </div>
-        
-    </div>
+    <?php if (isset($_SESSION['id_usuario'])) : ?>
+        <p>Sesión activa - ID: <?= $_SESSION['id_usuario']; ?>, Rol: <?= $_SESSION['rol']; ?></p>
+    <?php endif; ?>
 </body>
 </html>
