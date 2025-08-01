@@ -22,7 +22,9 @@
                 <li><a href="prestamos.php"><i class="fas fa-chart-line"></i> Préstamos</a></li>
             </ul>
             <div class="logout">
-                <a href="#"><i class="fas fa-sign-out-alt"></i> Salir</a>
+            <a href="/controller/logout.php" onclick="return confirm('¿Seguro que deseas cerrar sesión?')">
+    <i class="fas fa-sign-out-alt"></i> Salir
+</a>
             </div>
         </nav>
 
