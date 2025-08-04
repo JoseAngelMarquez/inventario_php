@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $usuario = $_POST['usuario'] ?? '';
     $contrasena = $_POST['contrasena'] ?? '';
 
-    $loginController = new LoginController($conexion);
+    $loginController = new LoginController();
     $resultado = $loginController->login($usuario, $contrasena);
 
     if ($resultado !== true) {

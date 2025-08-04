@@ -24,7 +24,7 @@ class LoginController {
                 if ($_SESSION['rol'] === 'admin') {
                     header('Location: /views/admin/prestamos.php');
                 } else if ($_SESSION['rol'] === 'prestamista') {
-                    header('Location: /views/prestamista/panel.php');
+                    header('Location: /views/prestamista/Inicio.php');
                 }
                 exit(); 
             } else {
