@@ -25,14 +25,16 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
         <!-- Menú lateral izquierdo -->
         <nav class="sidebar">
             <ul>
-                <li><a href=""><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="prestamos.php"><i class="fas fa-home"></i> Inicio</a></li>
                 <li><a href="controlUsuarios.php"><i class="fas fa-users"></i> Control de usuarios</a></li>
                 <li><a href="prestamos.php"><i class="fas fa-chart-line"></i> Préstamos</a></li>
+                <li><a href="materiales.php"><i class="fas fa-chart-line"></i> Materiales</a></li>
+
             </ul>
             <div class="logout">
             <a href="/controller/logout.php" onclick="return confirm('¿Seguro que deseas cerrar sesión?')">
-    <i class="fas fa-sign-out-alt"></i> Salir
-</a>
+                <i class="fas fa-sign-out-alt"></i> Salir
+            </a>
             </div>
         </nav>
 
@@ -54,6 +56,11 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
             <div class="content">
                 <h1 class="h1">Materiales préstados</h1>
                 <div>
+                    <p>Nombre del material:</p>
+                    <div style="position: relative;">
+                    <input type="text" id="materialName" placeholder="Buscar material..." style="padding-left: 30px; width: 50vh;">
+                    <i class="fa-solid fa-magnifying-glass" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); color: gray;"></i>
+                </div>
                     <table>
                         <thead>
                             <tr>

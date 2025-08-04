@@ -16,7 +16,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/asset/user/prestamo.css">
     
-    <title>Página principal de asesorías</title>
+    <title>Control de usuarios</title>
   
 </head>
 
@@ -26,7 +26,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
         <nav class="sidebar">
             <ul>
                 <li><a href="prestamos.php"><i class="fas fa-home"></i> Inicio</a></li>
-                <li><a href="agregarUsuarios.php"><i class="fas fa-users"></i> Control de usuarios</a></li>
+                <li><a href="controlUsuarios.php"><i class="fas fa-users"></i> Control de usuarios</a></li>
                 <li><a href="prestamos.php"><i class="fas fa-chart-line"></i> Préstamos</a></li>
             </ul>
             <div class="logout">
@@ -52,7 +52,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 
             <!-- Resto del contenido -->
             <div class="content">
-                <h1 class="h1">Materiales préstados</h1>
+                <h1 class="h1">Control de usuarios</h1>
                 <div>
                     <table>
                         <thead>

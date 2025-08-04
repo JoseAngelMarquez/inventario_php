@@ -26,7 +26,7 @@ class LoginController {
                 } else if ($_SESSION['rol'] === 'prestamista') {
                     header('Location: /views/prestamista/panel.php');
                 }
-                exit(); // ¡Importante!
+                exit(); 
             } else {
                 return [false, "Contraseña incorrecta"];
             }
