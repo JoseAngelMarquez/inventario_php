@@ -15,7 +15,8 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/asset/user/prestamo.css">
-    
+    <link rel="stylesheet" href="/asset/users/esqueleto.css">
+
     <title>Control de usuarios</title>
   
 </head>
@@ -25,9 +26,10 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
         <!-- Menú lateral izquierdo -->
         <nav class="sidebar">
             <ul>
-                <li><a href="prestamos.php"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="prestamos.php"><i class="fas fa-home"></i> Inicio</a></li>
                 <li><a href="controlUsuarios.php"><i class="fas fa-users"></i> Control de usuarios</a></li>
                 <li><a href="prestamos.php"><i class="fas fa-chart-line"></i> Préstamos</a></li>
+                <li><a href="materiales.php" class="active"><i class="fas fa-boxes"></i> Materiales</a></li>
             </ul>
             <div class="logout">
             <a href="/controller/logout.php" onclick="return confirm('¿Seguro que deseas cerrar sesión?')">
@@ -39,15 +41,10 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
         <!-- Contenido principal -->
         <div class="main-content">
             <div class="top-bar">
-                <div class="logo-section">
-                <img class="uaeh" src="/asset/img/logo_uaeh.png" alt="icono uaeh" width="250">
+                <img class="uaeh" src="/asset/img/logo_uaeh.png" alt="icono uaeh" width="150">
                 <span class="software-name">uaeh</span>
-
                 <h6>Bienvenido <?= htmlspecialchars($_SESSION['usuario']) ?></h6>
-                </div>
-                <div class="user-section">
-                    <i class="fas fa-user-circle avatar"></i>
-                </div>
+                <i class="fas fa-user-circle avatar"></i>
             </div>
 
             <!-- Resto del contenido -->

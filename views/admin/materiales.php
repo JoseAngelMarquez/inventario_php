@@ -19,63 +19,97 @@ if (isset($_GET['editar'])) {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <title>Gestión de Materiales</title>
-    <link rel="stylesheet" href="../../esqueleto.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/asset/user/prestamo.css">
+    <link rel="stylesheet" href="/asset/users/esqueleto.css">
 </head>
+
 <body>
-    <h2><?= $materialEditar ? 'Editar' : 'Agregar' ?> Material</h2>
-    <form action="../../controller/material_controller.php" method="POST">
-        <?php if ($materialEditar): ?>
-            <input type="hidden" name="id" value="<?= $materialEditar['id'] ?>" />
-        <?php endif; ?>
+    <div class="container">
+        <nav class="sidebar">
+            <ul>
+                <li><a href="prestamos.php"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="controlUsuarios.php"><i class="fas fa-users"></i> Control de usuarios</a></li>
+                <li><a href="prestamos.php"><i class="fas fa-chart-line"></i> Préstamos</a></li>
+                <li><a href="materiales.php" class="active"><i class="fas fa-boxes"></i> Materiales</a></li>
+            </ul>
+            <div class="logout">
+                <a href="../../controller/logout.php"
+                    onclick="return confirm('¿Seguro que deseas cerrar sesión?')">Salir</a>
+            </div>
+        </nav>
 
-        <input type="text" name="nombre" required placeholder="Nombre" value="<?= htmlspecialchars($materialEditar['nombre'] ?? '') ?>" /><br />
+        <div class="main-content">
+            <div class="top-bar">
+                <img class="uaeh" src="/asset/img/logo_uaeh.png" alt="icono uaeh" width="150">
+                <span class="software-name">uaeh</span>
+                <h6>Bienvenido <?= htmlspecialchars($_SESSION['usuario']) ?></h6>
+                <i class="fas fa-user-circle avatar"></i>
+            </div>
 
-        <select name="tipo" required>
-            <option value="">Seleccione tipo</option>
-            <option value="herramienta manual" <?= (isset($materialEditar['tipo']) && $materialEditar['tipo'] === 'herramienta manual') ? 'selected' : '' ?>>Herramienta manual</option>
-            <option value="herramienta eléctrica" <?= (isset($materialEditar['tipo']) && $materialEditar['tipo'] === 'herramienta eléctrica') ? 'selected' : '' ?>>Herramienta eléctrica</option>
-            <option value="insumo" <?= (isset($materialEditar['tipo']) && $materialEditar['tipo'] === 'insumo') ? 'selected' : '' ?>>Insumo</option>
-        </select><br />
+            <div class="content">
+                <h2><?= $materialEditar ? 'Editar' : 'Agregar' ?> Material</h2>
+                <form action="../../controller/material_controller.php" method="POST">
+                    <?php if ($materialEditar): ?>
+                        <input type="hidden" name="id" value="<?= $materialEditar['id'] ?>" />
+                    <?php endif; ?>
 
-        <input type="number" name="cantidad" required placeholder="Cantidad" value="<?= htmlspecialchars($materialEditar['cantidad_disponible'] ?? '') ?>" /><br />
+                    <input type="text" name="nombre" required placeholder="Nombre"
+                        value="<?= htmlspecialchars($materialEditar['nombre'] ?? '') ?>" /><br />
 
-        <textarea name="descripcion" placeholder="Descripción"><?= htmlspecialchars($materialEditar['descripcion'] ?? '') ?></textarea><br />
+                    <select name="tipo" required>
+                        <option value="">Seleccione tipo</option>
+                        <option value="herramienta manual" <?= (isset($materialEditar['tipo']) && $materialEditar['tipo'] === 'herramienta manual') ? 'selected' : '' ?>>Herramienta manual
+                        </option>
+                        <option value="herramienta eléctrica" <?= (isset($materialEditar['tipo']) && $materialEditar['tipo'] === 'herramienta eléctrica') ? 'selected' : '' ?>>Herramienta
+                            eléctrica</option>
+                        <option value="insumo" <?= (isset($materialEditar['tipo']) && $materialEditar['tipo'] === 'insumo') ? 'selected' : '' ?>>Insumo</option>
+                    </select><br />
 
-        <button type="submit" name="<?= $materialEditar ? 'editar' : 'agregar' ?>">
-            <?= $materialEditar ? 'Actualizar' : 'Agregar' ?>
-        </button>
-    </form>
+                    <input type="number" name="cantidad" required placeholder="Cantidad"
+                        value="<?= htmlspecialchars($materialEditar['cantidad_disponible'] ?? '') ?>" /><br />
 
-    <hr />
+                    <textarea name="descripcion"
+                        placeholder="Descripción"><?= htmlspecialchars($materialEditar['descripcion'] ?? '') ?></textarea><br />
 
-    <h2>Lista de Materiales</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Tipo</th>
-                <th>Cantidad</th>
-                <th>Descripción</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php while ($row = $materiales->fetch_assoc()): ?>
-                <tr>
-                    <td><?= htmlspecialchars($row['nombre']) ?></td>
-                    <td><?= htmlspecialchars($row['tipo']) ?></td>
-                    <td><?= $row['cantidad_disponible'] ?></td>
-                    <td><?= htmlspecialchars($row['descripcion']) ?></td>
-                    <td>
-                        <a href="materiales.php?editar=<?= $row['id'] ?>">Editar</a> |
-                        <a href="../../controller/material_controller.php?eliminar=<?= $row['id'] ?>" onclick="return confirm('¿Eliminar este material?')">Eliminar</a>
-                    </td>
-                </tr>
-            <?php endwhile; ?>
-        </tbody>
-    </table>
+                    <button type="submit" name="<?= $materialEditar ? 'editar' : 'agregar' ?>">
+                        <?= $materialEditar ? 'Actualizar' : 'Agregar' ?>
+                    </button>
+                </form>
+
+                <hr />
+
+                <h2>Lista de Materiales</h2>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Cantidad</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $materiales->fetch_assoc()): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($row['nombre']) ?></td>
+                                <td><?= htmlspecialchars($row['tipo']) ?></td>
+                                <td><?= $row['cantidad_disponible'] ?></td>
+                                <td><?= htmlspecialchars($row['descripcion']) ?></td>
+                                <td>
+                                    <a href="materiales.php?editar=<?= $row['id'] ?>">Editar</a> |
+                                    <a href="../../controller/material_controller.php?eliminar=<?= $row['id'] ?>"
+                                        onclick="return confirm('¿Eliminar este material?')">Eliminar</a>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
 </body>
+
 </html>
