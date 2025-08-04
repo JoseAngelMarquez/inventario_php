@@ -1,6 +1,12 @@
 <?php
 require_once '../../config/db.config.php';
 require_once '../../model/Material.php';
+session_start();
+
+if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
+    require_once __DIR__ . '/../login.php';
+    exit();
+}
 
 $materialModel = new Material($conexion);
 $materiales = $materialModel->obtenerTodos();
