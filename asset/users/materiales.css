@@ -20,7 +20,7 @@ form textarea {
 }
 
 form button {
-    background-color: #1abc9c;
+    background-color: #56070C;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -29,7 +29,7 @@ form button {
 }
 
 form button:hover {
-    background-color: #16a085;
+    background-color: #8F3D38;
 }
 
 /* Estilo de tabla */
@@ -43,7 +43,7 @@ table {
 }
 
 table thead {
-    background-color: #1abc9c;
+    background-color: #8F3D38;
     color: white;
 }
 
@@ -53,6 +53,3 @@ table th, table td {
     border-bottom: 1px solid #ddd;
 }
 
-table tr:hover {
-    background-color: #f1f1f1;
-}
