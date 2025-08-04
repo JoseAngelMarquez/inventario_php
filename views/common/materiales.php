@@ -36,9 +36,9 @@ if (isset($_GET['editar'])) {
         <nav class="sidebar">
             <?php
             if ($_SESSION['rol'] === 'admin') {
-                require_once '../includes/menu_admin.php';
+                require_once __DIR__ . '/../includes/menu_admin.php';
             } elseif ($_SESSION['rol'] === 'prestamista') {
-                require_once '../includes/menu_prestamista.php';
+                require_once __DIR__ . '/../includes/menu_prestamista.php';
             }
             ?>
             <div class="logout">

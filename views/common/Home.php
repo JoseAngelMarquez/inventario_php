@@ -1,10 +1,11 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
+if (!isset($_SESSION['usuario']) || !in_array($_SESSION['rol'], ['admin', 'prestamista'])) {
     require_once __DIR__ . '/../login.php';
     exit();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -18,26 +19,27 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
     <link rel="stylesheet" href="/asset/users/esqueleto.css">
 
     <title>Historial de préstamos</title>
-  
+
 </head>
 
 <body>
     <div class="container">
         <!-- Menú lateral izquierdo -->
         <nav class="sidebar">
-            <ul>
-                <li><a href="prestamos.php"><i class="fas fa-home"></i> Inicio</a></li>
-                <li><a href="controlUsuarios.php"><i class="fas fa-users"></i> Control de usuarios</a></li>
-                <li><a href="prestamos.php"><i class="fas fa-chart-line"></i> Préstamos</a></li>
-                <li><a href="materiales.php" class="active"><i class="fas fa-boxes"></i> Materiales</a></li>
-
-            </ul>
+            <?php
+            if ($_SESSION['rol'] === 'admin') {
+                require_once __DIR__ . '/../includes/menu_admin.php';
+            } elseif ($_SESSION['rol'] === 'prestamista') {
+                require_once __DIR__ . '/../includes/menu_prestamista.php';
+            }
+            ?>
             <div class="logout">
-            <a href="/controller/logout.php" onclick="return confirm('¿Seguro que deseas cerrar sesión?')">
-                <i class="fas fa-sign-out-alt"></i> Salir
-            </a>
+                <a href="/controller/logout.php" onclick="return confirm('¿Seguro que deseas cerrar sesión?')">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </a>
             </div>
         </nav>
+
 
         <!-- Contenido principal -->
         <div class="main-content">
@@ -54,9 +56,11 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
                 <div>
                     <p>Nombre del material:</p>
                     <div style="position: relative;">
-                    <input type="text" id="materialName" placeholder="Buscar material..." style="padding-left: 30px; width: 50vh;">
-                    <i class="fa-solid fa-magnifying-glass" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); color: gray;"></i>
-                </div>
+                        <input type="text" id="materialName" placeholder="Buscar material..."
+                            style="padding-left: 30px; width: 50vh;">
+                        <i class="fa-solid fa-magnifying-glass"
+                            style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); color: gray;"></i>
+                    </div>
                     <table>
                         <thead>
                             <tr>
@@ -73,9 +77,9 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
                     </table>
                 </div>
 
-               
+
+            </div>
         </div>
-    </div>
 </body>
 
 </html>

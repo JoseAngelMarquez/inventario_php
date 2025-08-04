@@ -17,12 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $material->actualizar($id, $nombre, $descripcion, $cantidad, $tipo);
     }
 
-    header("Location: ../views/admin/materiales.php");
+    header("Location: ../views/common/materiales.php");
     exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['eliminar'])) {
     $material->eliminar($_GET['eliminar']);
-    header("Location: ../views/admin/materiales.php");
+    header("Location: ../views/common/materiales.php");
     exit();
 }

@@ -22,9 +22,9 @@ class LoginController {
 
                 // Redirección según el rol
                 if ($_SESSION['rol'] === 'admin') {
-                    header('Location: /views/admin/prestamos.php');
+                    header('Location: /views/common/Home.php');
                 } else if ($_SESSION['rol'] === 'prestamista') {
-                    header('Location: /views/prestamista/Inicio.php');
+                    header('Location: /views/common/Home.php');
                 }
                 exit(); 
             } else {

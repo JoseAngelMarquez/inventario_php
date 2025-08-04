@@ -1,6 +1,5 @@
 <ul>
-    <li><a href="prestamos.php"><i class="fas fa-home"></i> Inicio</a></li>
-    <li><a href="controlUsuarios.php"><i class="fas fa-users"></i> Control de usuarios</a></li>
-    <li><a href="prestamos.php"><i class="fas fa-chart-line"></i> Préstamos</a></li>
-    <li><a href="materiales.php" class="active"><i class="fas fa-boxes"></i> Materiales</a></li>
-</ul>
+    <li><a href="../common/Home.php"><i class="fas fa-home"></i>Historial</a></li>
+    <li><a href="../admin/controlUsuarios.php"><i class="fas fa-users"></i> Control de usuarios</a></li>
+    <li><a href="../common/materiales.php" class="active"><i class="fas fa-boxes"></i> Materiales</a></li>
+    </ul>
