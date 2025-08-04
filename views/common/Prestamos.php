@@ -1,10 +1,11 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
+if (!isset($_SESSION['usuario']) || !in_array($_SESSION['rol'], ['admin', 'prestamista'])) {
     require_once __DIR__ . '/../login.php';
     exit();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -17,8 +18,8 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
     <link rel="stylesheet" href="/asset/user/prestamo.css">
     <link rel="stylesheet" href="/asset/users/esqueleto.css">
 
-    <title>Control de usuarios</title>
-  
+    <title>Historial de préstamos</title>
+
 </head>
 
 <body>
@@ -39,6 +40,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
             </div>
         </nav>
 
+
         <!-- Contenido principal -->
         <div class="main-content">
             <div class="top-bar">
@@ -50,8 +52,15 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 
             <!-- Resto del contenido -->
             <div class="content">
-                <h1 class="h1">Control de usuarios</h1>
+                <h1 class="h1">Materiales préstados</h1>
                 <div>
+                    <p>Nombre del material:</p>
+                    <div style="position: relative;">
+                        <input type="text" id="materialName" placeholder="Buscar material..."
+                            style="padding-left: 30px; width: 50vh;">
+                        <i class="fa-solid fa-magnifying-glass"
+                            style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); color: gray;"></i>
+                    </div>
                     <table>
                         <thead>
                             <tr>
@@ -68,9 +77,9 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
                     </table>
                 </div>
 
-               
+
+            </div>
         </div>
-    </div>
 </body>
 
 </html>
