@@ -2,99 +2,74 @@
 require_once '../../config/db.config.php';
 require_once '../../model/Material.php';
 
-$material = new Material($conn);
+$materialModel = new Material($conexion);
+$materiales = $materialModel->obtenerTodos();
 
-$modo_edicion = false;
-$material_editar = [
-    'id' => '',
-    'nombre' => '',
-    'descripcion' => '',
-    'cantidad' => '',
-    'categoria' => ''
-];
-
-// Si estamos editando
-if (isset($_GET['editar_id'])) {
-    $modo_edicion = true;
-    $material_editar = $material->obtenerPorId($_GET['editar_id']);
+$materialEditar = null;
+if (isset($_GET['editar'])) {
+    $materialEditar = $materialModel->obtenerPorId($_GET['editar']);
 }
-
-$lista = $material->obtenerTodos();
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Gestión de Materiales</title>
-    <link rel="stylesheet" href="/asset/user/prestamo.css">
-
-    <link rel="stylesheet" href="../../esqueleto.css">
+    <link rel="stylesheet" href="../../esqueleto.css" />
 </head>
 <body>
-
-    <h2><?= $modo_edicion ? 'Editar Material' : 'Agregar Material' ?></h2>
-
+    <h2><?= $materialEditar ? 'Editar' : 'Agregar' ?> Material</h2>
     <form action="../../controller/material_controller.php" method="POST">
-        <input type="hidden" name="accion" value="<?= $modo_edicion ? 'actualizar' : 'insertar' ?>">
-        <?php if ($modo_edicion): ?>
-            <input type="hidden" name="id" value="<?= $material_editar['id'] ?>">
+        <?php if ($materialEditar): ?>
+            <input type="hidden" name="id" value="<?= $materialEditar['id'] ?>" />
         <?php endif; ?>
 
-        <input type="text" name="nombre" placeholder="Nombre del material" value="<?= htmlspecialchars($material_editar['nombre']) ?>" required>
-        <input type="text" name="descripcion" placeholder="Descripción" value="<?= htmlspecialchars($material_editar['descripcion']) ?>">
-        <input type="number" name="cantidad" placeholder="Cantidad" value="<?= htmlspecialchars($material_editar['cantidad']) ?>" required>
-        <input type="text" name="categoria" placeholder="Categoría" value="<?= htmlspecialchars($material_editar['categoria']) ?>">
+        <input type="text" name="nombre" required placeholder="Nombre" value="<?= htmlspecialchars($materialEditar['nombre'] ?? '') ?>" /><br />
 
-        <button type="submit"><?= $modo_edicion ? 'Actualizar' : 'Agregar' ?></button>
+        <select name="tipo" required>
+            <option value="">Seleccione tipo</option>
+            <option value="herramienta manual" <?= (isset($materialEditar['tipo']) && $materialEditar['tipo'] === 'herramienta manual') ? 'selected' : '' ?>>Herramienta manual</option>
+            <option value="herramienta eléctrica" <?= (isset($materialEditar['tipo']) && $materialEditar['tipo'] === 'herramienta eléctrica') ? 'selected' : '' ?>>Herramienta eléctrica</option>
+            <option value="insumo" <?= (isset($materialEditar['tipo']) && $materialEditar['tipo'] === 'insumo') ? 'selected' : '' ?>>Insumo</option>
+        </select><br />
 
-        <?php if ($modo_edicion): ?>
-            <a href="materiales.php">Cancelar</a>
-        <?php endif; ?>
+        <input type="number" name="cantidad" required placeholder="Cantidad" value="<?= htmlspecialchars($materialEditar['cantidad_disponible'] ?? '') ?>" /><br />
+
+        <textarea name="descripcion" placeholder="Descripción"><?= htmlspecialchars($materialEditar['descripcion'] ?? '') ?></textarea><br />
+
+        <button type="submit" name="<?= $materialEditar ? 'editar' : 'agregar' ?>">
+            <?= $materialEditar ? 'Actualizar' : 'Agregar' ?>
+        </button>
     </form>
-    <nav class="sidebar">
-            <ul>
-                <li><a href="prestamos.php"><i class="fas fa-home"></i> Inicio</a></li>
-                <li><a href="controlUsuarios.php"><i class="fas fa-users"></i> Control de usuarios</a></li>
-                <li><a href="prestamos.php"><i class="fas fa-chart-line"></i> Préstamos</a></li>
-                <li><a href="materiales.php"><i class="fas fa-chart-line"></i> Materiales</a></li>
 
-            </ul>
-            <div class="logout">
-            <a href="/controller/logout.php" onclick="return confirm('¿Seguro que deseas cerrar sesión?')">
-                <i class="fas fa-sign-out-alt"></i> Salir
-            </a>
-            </div>
-        </nav>
-    <h3>Lista de Materiales</h3>
+    <hr />
+
+    <h2>Lista de Materiales</h2>
     <table border="1">
-        <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Cantidad</th>
-            <th>Categoría</th>
-            <th>Acciones</th>
-        </tr>
-        <?php while ($m = $lista->fetch_assoc()) : ?>
+        <thead>
             <tr>
-                <td><?= htmlspecialchars($m['nombre']) ?></td>
-                <td><?= htmlspecialchars($m['descripcion']) ?></td>
-                <td><?= $m['cantidad'] ?></td>
-                <td><?= htmlspecialchars($m['categoria']) ?></td>
-                <td>
-                    <form action="materiales.php" method="GET" style="display:inline;">
-                        <input type="hidden" name="editar_id" value="<?= $m['id'] ?>">
-                        <button type="submit">Editar</button>
-                    </form>
-
-                    <form action="../../controller/material_controller.php" method="POST" style="display:inline;">
-                        <input type="hidden" name="accion" value="eliminar">
-                        <input type="hidden" name="id" value="<?= $m['id'] ?>">
-                        <button type="submit" onclick="return confirm('¿Eliminar este material?')">Eliminar</button>
-                    </form>
-                </td>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Cantidad</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
             </tr>
-        <?php endwhile; ?>
+        </thead>
+        <tbody>
+            <?php while ($row = $materiales->fetch_assoc()): ?>
+                <tr>
+                    <td><?= htmlspecialchars($row['nombre']) ?></td>
+                    <td><?= htmlspecialchars($row['tipo']) ?></td>
+                    <td><?= $row['cantidad_disponible'] ?></td>
+                    <td><?= htmlspecialchars($row['descripcion']) ?></td>
+                    <td>
+                        <a href="materiales.php?editar=<?= $row['id'] ?>">Editar</a> |
+                        <a href="../../controller/material_controller.php?eliminar=<?= $row['id'] ?>" onclick="return confirm('¿Eliminar este material?')">Eliminar</a>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+        </tbody>
     </table>
 </body>
 </html>

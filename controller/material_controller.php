@@ -2,24 +2,27 @@
 require_once __DIR__ . '/../config/db.config.php';
 require_once __DIR__ . '/../model/Material.php';
 
-$material = new Material($conn);
+$material = new Material($conexion);
 
-// Acciones: insertar, actualizar, eliminar, buscar
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $accion = $_POST['accion'];
+    $id = $_POST['id'] ?? null;
+    $nombre = $_POST['nombre'];
+    $descripcion = $_POST['descripcion'];
+    $cantidad = $_POST['cantidad'];
+    $tipo = $_POST['tipo'];
 
-    switch ($accion) {
-        case 'insertar':
-            $material->insertar($_POST['nombre'], $_POST['descripcion'], $_POST['cantidad'], $_POST['categoria']);
-            break;
-        case 'actualizar':
-            $material->actualizar($_POST['id'], $_POST['nombre'], $_POST['descripcion'], $_POST['cantidad'], $_POST['categoria']);
-            break;
-        case 'eliminar':
-            $material->eliminar($_POST['id']);
-            break;
+    if (isset($_POST['agregar'])) {
+        $material->insertar($nombre, $descripcion, $cantidad, $tipo);
+    } elseif (isset($_POST['editar'])) {
+        $material->actualizar($id, $nombre, $descripcion, $cantidad, $tipo);
     }
 
+    header("Location: ../views/admin/materiales.php");
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['eliminar'])) {
+    $material->eliminar($_GET['eliminar']);
     header("Location: ../views/admin/materiales.php");
     exit();
 }
