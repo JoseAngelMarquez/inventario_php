@@ -3,10 +3,11 @@ require_once '../../config/db.config.php';
 require_once '../../model/Material.php';
 session_start();
 
-if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
+if (!isset($_SESSION['usuario']) || !in_array($_SESSION['rol'], ['admin', 'prestamista'])) {
     require_once __DIR__ . '/../login.php';
     exit();
 }
+
 
 $materialModel = new Material($conexion);
 $materiales = $materialModel->obtenerTodos();
@@ -33,17 +34,19 @@ if (isset($_GET['editar'])) {
 <body>
     <div class="container">
         <nav class="sidebar">
-            <ul>
-                <li><a href="prestamos.php"><i class="fas fa-home"></i> Inicio</a></li>
-                <li><a href="controlUsuarios.php"><i class="fas fa-users"></i> Control de usuarios</a></li>
-                <li><a href="prestamos.php"><i class="fas fa-chart-line"></i> Préstamos</a></li>
-                <li><a href="materiales.php" class="active"><i class="fas fa-boxes"></i> Materiales</a></li>
-            </ul>
+            <?php
+            if ($_SESSION['rol'] === 'admin') {
+                require_once '../includes/menu_admin.php';
+            } elseif ($_SESSION['rol'] === 'prestamista') {
+                require_once '../includes/menu_prestamista.php';
+            }
+            ?>
             <div class="logout">
                 <a href="../../controller/logout.php"
                     onclick="return confirm('¿Seguro que deseas cerrar sesión?')">Salir</a>
             </div>
         </nav>
+
 
         <div class="main-content">
             <div class="top-bar">
