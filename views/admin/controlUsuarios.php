@@ -73,12 +73,15 @@ if (isset($_GET['success'])) {
                     <form method="POST" action="../../controller/UsersController.php">
                         <input type="hidden" name="accion" value="editar" />
                         <input type="hidden" name="id" value="<?= htmlspecialchars($userEditar['id']) ?>" />
-                        <input type="text" name="usuario" value="<?= htmlspecialchars($userEditar['usuario']) ?>" placeholder="Usuario" required />
-                        <input type="password" name="contrasena" placeholder="Nueva contraseña (dejar vacío para no cambiar)" />
+                        <input type="text" name="usuario" value="<?= htmlspecialchars($userEditar['usuario']) ?>"
+                            placeholder="Usuario" required />
+                        <input type="password" name="contrasena"
+                            placeholder="Nueva contraseña (dejar vacío para no cambiar)" />
                         <select name="rol" required>
                             <option value="">Seleccione rol</option>
                             <option value="admin" <?= $userEditar['rol'] === 'admin' ? 'selected' : '' ?>>Admin</option>
-                            <option value="prestamista" <?= $userEditar['rol'] === 'prestamista' ? 'selected' : '' ?>>Prestamista</option>
+                            <option value="prestamista" <?= $userEditar['rol'] === 'prestamista' ? 'selected' : '' ?>>
+                                Prestamista</option>
                         </select>
                         <button type="submit">Actualizar Usuario</button>
                         <a href="controlUsuarios.php" style="margin-left: 10px;">Cancelar</a>
@@ -109,23 +112,31 @@ if (isset($_GET['success'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while ($row = $controlUsuarios->fetch_assoc()) : ?>
+                        <?php while ($row = $controlUsuarios->fetch_assoc()): ?>
                             <tr>
                                 <td><?= htmlspecialchars($row['id']) ?></td>
                                 <td><?= htmlspecialchars($row['usuario']) ?></td>
                                 <td><?= htmlspecialchars($row['rol']) ?></td>
                                 <td>
-                                    <form action="controlUsuarios.php" method="GET" style="display:inline;">
-                                        <input type="hidden" name="editar" value="<?= $row['id'] ?>" />
-                                        <button type="submit" class="btn-unico">Editar</button>
-                                    </form>
-                                    <form method="POST" action="../../controller/UsersController.php" style="display:inline;" onsubmit="return confirm('¿Eliminar este usuario?');">
-                                        <input type="hidden" name="eliminar" value="<?= $row['id'] ?>" />
-                                        <button type="submit" class="btn-unico" style="background:#a00;">Eliminar</button>
-                                    </form>
+                                    <?php if ($row['id'] != $_SESSION['id_usuario']): ?>
+                                        <!-- Botón Editar -->
+                                        <form action="controlUsuarios.php" method="GET" style="display:inline;">
+                                            <input type="hidden" name="editar" value="<?= $row['id'] ?>" />
+                                            <button type="submit" class="btn-unico">Editar</button>
+                                        </form>
+                                        <!-- Botón Eliminar -->
+                                        <form method="POST" action="../../controller/UsersController.php"
+                                            style="display:inline;" onsubmit="return confirm('¿Eliminar este usuario?');">
+                                            <input type="hidden" name="eliminar" value="<?= $row['id'] ?>" />
+                                            <button type="submit" class="btn-unico" style="background:#a00;">Eliminar</button>
+                                        </form>
+                                    <?php else: ?>
+                                        <em>Usuario logueado</em>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endwhile; ?>
+
                     </tbody>
                 </table>
 
