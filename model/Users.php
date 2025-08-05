@@ -33,11 +33,11 @@ class Users
 
     // Actualizar usuario
     public function actualizar($id, $usuario, $contrasena, $rol)
-{
-    $stmt = $this->conexion->prepare("UPDATE usuarios SET usuario = ?, contrasena = ?, rol = ? WHERE id = ?");
-    $stmt->bind_param("sssi", $usuario, $contrasena, $rol, $id);
-    return $stmt->execute();
-}
+    {
+        $stmt = $this->conexion->prepare("UPDATE usuarios SET usuario = ?, contrasena = ?, rol = ? WHERE id = ?");
+        $stmt->bind_param("sssi", $usuario, $contrasena, $rol, $id);
+        return $stmt->execute();
+    }
 
 
     // Eliminar usuario
