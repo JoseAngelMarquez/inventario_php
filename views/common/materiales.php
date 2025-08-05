@@ -58,7 +58,7 @@ if (isset($_GET['editar'])) {
 
             <div class="content">
                 <h2><?= $materialEditar ? 'Editar' : 'Agregar' ?> Material</h2>
-                <form action="../../controller/material_controller.php" method="POST">
+                <form class="form-principal" action="../../controller/material_controller.php" method="POST">
                     <?php if ($materialEditar): ?>
                         <input type="hidden" name="id" value="<?= $materialEditar['id'] ?>" />
                     <?php endif; ?>
@@ -81,7 +81,7 @@ if (isset($_GET['editar'])) {
                     <textarea name="descripcion"
                         placeholder="Descripción"><?= htmlspecialchars($materialEditar['descripcion'] ?? '') ?></textarea><br />
 
-                    <button type="submit" name="<?= $materialEditar ? 'editar' : 'agregar' ?>">
+                    <button type="submit" class="btn-unico" name="<?= $materialEditar ? 'editar' : 'agregar' ?>">
                         <?= $materialEditar ? 'Actualizar' : 'Agregar' ?>
                     </button>
                 </form>
@@ -107,9 +107,14 @@ if (isset($_GET['editar'])) {
                                 <td><?= $row['cantidad_disponible'] ?></td>
                                 <td><?= htmlspecialchars($row['descripcion']) ?></td>
                                 <td>
-                                    <a href="materiales.php?editar=<?= $row['id'] ?>">Editar</a> |
-                                    <a href="../../controller/material_controller.php?eliminar=<?= $row['id'] ?>"
-                                        onclick="return confirm('¿Eliminar este material?')">Eliminar</a>
+                                    <form action="materiales.php" method="GET" style="display:inline;">
+                                        <input type="hidden" name="editar" value="<?= $row['id'] ?>" />
+                                        <button type="submit" class="btn-table">Editar</button>
+                                    </form> |
+                                    <form action="../../controller/material_controller.php" method="GET" style="display:inline-block;">
+                                        <input type="hidden" name="eliminar" value="<?= $row['id'] ?>" />
+                                        <button type="submit" class="btn-table" onclick="return confirm('¿Eliminar este material?')">Eliminar</button>
+                                    </form>
                                 </td>
                             </tr>
                         <?php endwhile; ?>

@@ -26,3 +26,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['eliminar'])) {
     header("Location: ../views/common/materiales.php");
     exit();
 }
+
