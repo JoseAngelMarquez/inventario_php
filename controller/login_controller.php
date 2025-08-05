@@ -13,20 +13,19 @@ class LoginController {
 
     public function login($usuario, $contrasena) {
         $usuarioEncontrado = $this->usuarioModel->obtenerUsuarioPorNombre($usuario);
-
+    
         if ($usuarioEncontrado) {
-            if ($usuarioEncontrado['contrasena'] === $contrasena) {
+            if (password_verify($contrasena, $usuarioEncontrado['contrasena'])) {
                 $_SESSION['id_usuario'] = $usuarioEncontrado['id'];
                 $_SESSION['usuario'] = $usuarioEncontrado['usuario'];
                 $_SESSION['rol'] = $usuarioEncontrado['rol'];
-
-                // Redirección según el rol
+    
                 if ($_SESSION['rol'] === 'admin') {
                     header('Location: /views/common/Home.php');
                 } else if ($_SESSION['rol'] === 'prestamista') {
                     header('Location: /views/common/Home.php');
                 }
-                exit(); 
+                exit();
             } else {
                 return [false, "Contraseña incorrecta"];
             }
@@ -34,5 +33,6 @@ class LoginController {
             return [false, "Usuario no encontrado"];
         }
     }
+    
 }
 ?>
