@@ -34,42 +34,7 @@ if (isset($_GET['success'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link rel="stylesheet" href="/asset/user/prestamo.css" />
     <link rel="stylesheet" href="/asset/users/esqueleto.css" />
-    <style>
-        .alert {
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        form input, form select {
-            padding: 8px;
-            margin-right: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
-        form button {
-            background-color: #56070C;
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        form button:hover {
-            background-color: #7A0A14;
-        }
-    </style>
+    <link rel="stylesheet" href="/asset/admin/usuarios.css" />
 </head>
 
 <body>
