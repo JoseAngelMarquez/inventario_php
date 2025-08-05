@@ -48,4 +48,12 @@ class Users
         return $stmt->execute();
     }
 
+    public function obtenerUsuarioPorNombre($usuario)
+    {
+        $stmt = $this->conexion->prepare("SELECT id, usuario, contrasena, rol FROM usuarios WHERE usuario = ?");
+        $stmt->bind_param("s", $usuario);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        return $resultado->fetch_assoc();
+    }
 }
