@@ -131,7 +131,7 @@ if (isset($_GET['success'])) {
                                             <button type="submit" class="btn-unico" style="background:#a00;">Eliminar</button>
                                         </form>
                                     <?php else: ?>
-                                        <em>Usuario logueado</em>
+                                        <em style="background-color: yellow;">Usuario logueado</em>
                                     <?php endif; ?>
                                 </td>
                             </tr>
