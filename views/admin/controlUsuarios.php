@@ -1,12 +1,25 @@
 <?php
+require_once '../../config/db.config.php';
+require_once '../../model/Users.php'; // Cambié a Users.php, no Material.php
 session_start();
 
 if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
     require_once __DIR__ . '/../login.php';
     exit();
 }
-?>
 
+// Crear instancia del modelo
+$userModel = new Users($conexion);
+
+// Obtener todos los usuarios
+$controlUsuarios = $userModel->obtenerTodos();
+
+// Si se quiere editar un usuario específico
+$userEditar = null;
+if (isset($_GET['editar'])) {
+    $userEditar = $userModel->obtenerPorId($_GET['editar']);
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -16,9 +29,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/asset/user/prestamo.css">
     <link rel="stylesheet" href="/asset/users/esqueleto.css">
-
     <title>Control de usuarios</title>
-  
 </head>
 
 <body>
@@ -51,26 +62,45 @@ if (!isset($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
             <!-- Resto del contenido -->
             <div class="content">
                 <h1 class="h1">Control de usuarios</h1>
+
+                <!-- Botón para crear nuevo usuario -->
+                <a href="crear_usuario.php" class="btn-unico" style="margin-bottom: 10px; display:inline-block;">Nuevo Usuario</a>
+
                 <div>
                     <table>
                         <thead>
                             <tr>
-                                <th>id</th>
+                                <th>ID</th>
                                 <th>Usuario</th>
-                                <th>Material prestado</th>
-                                <th>Fecha de préstamo</th>
-                                <th>Estado</th>
-                                <th>Cantidad</th>
-                                <th>Solicitante</th>
-                                <th>Finalización</th>
+                                <th>Rol</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            <?php while ($row = $controlUsuarios->fetch_assoc()) : ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($row['id']) ?></td>
+                                    <td><?= htmlspecialchars($row['usuario']) ?></td>
+                                    <td><?= htmlspecialchars($row['rol']) ?></td>
+                                    <td>
+                                        <!-- Botón Editar -->
+                                        <form action="../../controller/UsersController.php" method="GET" style="display:inline;">
+                                            <input type="hidden" name="editar" value="<?= $row['id'] ?>">
+                                            <button type="submit" class="btn-unico">Editar</button>
+                                        </form>
+                                        <!-- Botón Eliminar -->
+                                        <form action="../../controller/UsersController.php" method="POST" style="display:inline;" onsubmit="return confirm('¿Eliminar este usuario?');">
+                                            <input type="hidden" name="eliminar" value="<?= $row['id'] ?>">
+                                            <button type="submit" class="btn-unico" style="background:#a00;">Eliminar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        </tbody>
                     </table>
                 </div>
 
-               
+            </div>
         </div>
-    </div>
 </body>
-
 </html>
