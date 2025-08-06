@@ -23,6 +23,8 @@ $materiales = $conexion->query("SELECT id, nombre, cantidad_disponible FROM mate
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/asset/users/contenido.css">
     <link rel="stylesheet" href="/asset/users/esqueleto.css">
+    <link rel="stylesheet" href="/asset/users/prestamos.css">
+
 
 <body>
 
@@ -98,7 +100,6 @@ $materiales = $conexion->query("SELECT id, nombre, cantidad_disponible FROM mate
             <h2>Historial de préstamos</h2>
             <table border="1">
                 <tr>
-                    <th>ID</th>
                     <th>Material</th>
                     <th>Cantidad</th>
                     <th>Prestado por</th>
@@ -108,7 +109,6 @@ $materiales = $conexion->query("SELECT id, nombre, cantidad_disponible FROM mate
                 </tr>
                 <?php while ($row = $historial->fetch_assoc()): ?>
                     <tr>
-                        <td><?= $row['id'] ?></td>
                         <td><?= $row['material'] ?></td>
                         <td><?= $row['cantidad'] ?></td>
                         <td><?= $row['prestado_por'] ?></td>
