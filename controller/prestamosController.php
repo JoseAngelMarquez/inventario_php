@@ -30,14 +30,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id_usuario = $_SESSION['id_usuario']; 
 
             if ($prestamos->registrarPrestamo($id_material, $cantidad, $id_usuario, $id_solicitante)) {
-                header("Location: ../views/admin/prestamos.php?success=Préstamo registrado correctamente");
+                header("Location: ../views/common/Prestamos.php?success=Préstamo registrado correctamente");
                 exit();
             } else {
-                header("Location: ../views/admin/prestamos.php?error=No se pudo registrar el préstamo");
+                header("Location: ../views/common/Prestamos.php?error=No se pudo registrar el préstamo");
                 exit();
             }
         } else {
-            header("Location: ../views/admin/prestamos.php?error=No se pudo registrar el solicitante");
+            header("Location: ../views/common/Prestamos.php?error=No se pudo registrar el solicitante");
             exit();
         }
     }

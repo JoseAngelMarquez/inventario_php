@@ -16,28 +16,43 @@ $materiales = $conexion->query("SELECT id, nombre, cantidad_disponible FROM mate
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Préstamos</title>
     <link rel="stylesheet" href="/asset/users/esqueleto.css">
 </head>
+
 <body>
     <h1>Registrar Préstamo</h1>
     <form method="POST" action="../../controller/PrestamosController.php">
         <input type="hidden" name="accion" value="prestar">
 
         <h3>Datos del solicitante</h3>
-        <select name="tipo" required>
+        <select name="tipo" id="tipo" required>
             <option value="">Seleccione tipo</option>
             <option value="estudiante">Estudiante</option>
             <option value="trabajador">Trabajador</option>
         </select>
+
         <input type="text" name="nombre_completo" placeholder="Nombre completo" required>
-        <input type="text" name="matricula" placeholder="Matrícula">
-        <input type="text" name="carrera" placeholder="Carrera">
-        <input type="text" name="lugar_trabajo" placeholder="Lugar de trabajo">
+
+        <!-- Campos para estudiantes -->
+        <div id="campoMatricula">
+            <input type="text" name="matricula" placeholder="Matrícula">
+        </div>
+        <div id="campoCarrera">
+            <input type="text" name="carrera" placeholder="Carrera">
+        </div>
+
+        <!-- Campos para trabajadores -->
+        <div id="campoTrabajo">
+            <input type="text" name="lugar_trabajo" placeholder="Lugar de trabajo">
+        </div>
+
         <input type="text" name="telefono" placeholder="Teléfono">
         <input type="email" name="correo" placeholder="Correo">
+
 
         <h3>Material a prestar</h3>
         <select name="id_material" required>
@@ -65,16 +80,42 @@ $materiales = $conexion->query("SELECT id, nombre, cantidad_disponible FROM mate
             <th>Estado</th>
         </tr>
         <?php while ($row = $historial->fetch_assoc()): ?>
-        <tr>
-            <td><?= $row['id'] ?></td>
-            <td><?= $row['material'] ?></td>
-            <td><?= $row['cantidad'] ?></td>
-            <td><?= $row['prestado_por'] ?></td>
-            <td><?= $row['solicitante'] ?></td>
-            <td><?= $row['fecha_prestamo'] ?></td>
-            <td><?= $row['estado'] ?></td>
-        </tr>
+            <tr>
+                <td><?= $row['id'] ?></td>
+                <td><?= $row['material'] ?></td>
+                <td><?= $row['cantidad'] ?></td>
+                <td><?= $row['prestado_por'] ?></td>
+                <td><?= $row['solicitante'] ?></td>
+                <td><?= $row['fecha_prestamo'] ?></td>
+                <td><?= $row['estado'] ?></td>
+            </tr>
         <?php endwhile; ?>
     </table>
+
+    <script>
+document.getElementById('tipo').addEventListener('change', function () {
+    let tipo = this.value;
+
+    let campoMatricula = document.getElementById('campoMatricula');
+    let campoCarrera = document.getElementById('campoCarrera');
+    let campoTrabajo = document.getElementById('campoTrabajo');
+
+    if (tipo === 'estudiante') {
+        campoMatricula.style.display = 'block';
+        campoCarrera.style.display = 'block';
+        campoTrabajo.style.display = 'none';
+    } else if (tipo === 'trabajador') {
+        campoMatricula.style.display = 'none';
+        campoCarrera.style.display = 'none';
+        campoTrabajo.style.display = 'block';
+    } else {
+        campoMatricula.style.display = 'none';
+        campoCarrera.style.display = 'none';
+        campoTrabajo.style.display = 'none';
+    }
+});
+</script>
+
 </body>
+
 </html>
