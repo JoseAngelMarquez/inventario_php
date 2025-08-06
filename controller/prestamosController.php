@@ -48,16 +48,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id_finalizado_por = $_SESSION['id_usuario'];
 
         if ($prestamos->finalizarPrestamo($id_prestamo, $id_finalizado_por)) {
-            header("Location: ../views/admin/prestamos.php?success=Préstamo finalizado correctamente");
+            header("Location: ../views/common/prestamos.php?success=Préstamo finalizado correctamente");
             exit();
         } else {
-            header("Location: ../views/admin/prestamos.php?error=No se pudo finalizar el préstamo");
+            header("Location: ../views/common/prestamos.php?error=No se pudo finalizar el préstamo");
             exit();
         }
     }
 }
 
 // Si no hay acción válida
-header("Location: ../views/admin/prestamos.php?error=Acción no válida");
+header("Location: ../views/common/prestamos.php?error=Acción no válida");
 exit();
 ?>

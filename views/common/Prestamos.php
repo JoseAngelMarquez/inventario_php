@@ -106,6 +106,7 @@ $materiales = $conexion->query("SELECT id, nombre, cantidad_disponible FROM mate
                     <th>Solicitante</th>
                     <th>Fecha préstamo</th>
                     <th>Estado</th>
+                    <th>Acciones</th>
                 </tr>
                 <?php while ($row = $historial->fetch_assoc()): ?>
                     <tr>
@@ -115,9 +116,24 @@ $materiales = $conexion->query("SELECT id, nombre, cantidad_disponible FROM mate
                         <td><?= $row['solicitante'] ?></td>
                         <td><?= $row['fecha_prestamo'] ?></td>
                         <td><?= $row['estado'] ?></td>
+                        <td>
+                            <?php if ($row['estado'] === 'prestado'): ?>
+                                <form method="POST" action="../../controller/PrestamosController.php" style="display:inline;">
+                                    <input type="hidden" name="accion" value="finalizar">
+                                    <input type="hidden" name="id_prestamo" value="<?= $row['id'] ?>">
+                                    <button type="submit"
+                                        onclick="return confirm('¿Seguro que deseas finalizar este préstamo?')">
+                                        Finalizar
+                                    </button>
+                                </form>
+                            <?php else: ?>
+                                Finalizado
+                            <?php endif; ?>
+                        </td>
                     </tr>
                 <?php endwhile; ?>
             </table>
+
 
             <script>
                 document.getElementById('tipo').addEventListener('change', function () {
