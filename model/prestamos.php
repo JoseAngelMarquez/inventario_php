@@ -8,7 +8,7 @@ class Prestamos
         $this->conexion = $conexion;
     }
 
-    // 1️⃣ Registrar solicitante y devolver su ID
+    // Registrar solicitante y devolver su ID
     public function registrarSolicitante($tipo, $nombre_completo, $matricula, $carrera, $lugar_trabajo, $telefono, $correo)
     {
         $stmt = $this->conexion->prepare("
@@ -23,28 +23,42 @@ class Prestamos
         return false;
     }
 
-    // 2️⃣ Registrar préstamo
+    // Registrar préstamo
     public function registrarPrestamo($id_material, $cantidad, $id_usuario, $id_solicitante)
-    {
-        // Fecha actual
-        $fecha_prestamo = date('Y-m-d H:i:s');
+{
+    // Comprobar stock antes de prestar
+    $stmt = $this->conexion->prepare("SELECT cantidad_disponible FROM materiales WHERE id = ?");
+    $stmt->bind_param("i", $id_material);
+    $stmt->execute();
+    $resultado = $stmt->get_result()->fetch_assoc();
 
-        // Insertar préstamo
-        $stmt = $this->conexion->prepare("
-            INSERT INTO prestamos (id_material, cantidad, fecha_prestamo, estado, id_usuario, id_solicitante)
-            VALUES (?, ?, ?, 'prestado', ?, ?)
-        ");
-        $stmt->bind_param("iisii", $id_material, $cantidad, $fecha_prestamo, $id_usuario, $id_solicitante);
-
-        if ($stmt->execute()) {
-            // Actualizar cantidad disponible del material
-            $this->actualizarStock($id_material, -$cantidad);
-            return true;
-        }
-        return false;
+    if (!$resultado) {
+        return false; // Material no encontrado
     }
 
-    // 3️⃣ Finalizar préstamo
+    if ($cantidad > $resultado['cantidad_disponible']) {
+        return false; // No hay suficiente stock
+    }
+
+    $fecha_prestamo = date('Y-m-d H:i:s');
+
+    // Insertar préstamo
+    $stmt = $this->conexion->prepare("
+        INSERT INTO prestamos (id_material, cantidad, fecha_prestamo, estado, id_usuario, id_solicitante)
+        VALUES (?, ?, ?, 'prestado', ?, ?)
+    ");
+    $stmt->bind_param("iisii", $id_material, $cantidad, $fecha_prestamo, $id_usuario, $id_solicitante);
+
+    if ($stmt->execute()) {
+        // Actualizar stock
+        $this->actualizarStock($id_material, -$cantidad);
+        return true;
+    }
+    return false;
+}
+
+
+    // Finalizar préstamo
     public function finalizarPrestamo($id_prestamo, $id_finalizado_por)
     {
         $fecha_devolucion = date('Y-m-d H:i:s');
@@ -76,7 +90,7 @@ class Prestamos
         return false;
     }
 
-    // 4️⃣ Actualizar stock de materiales
+    // Actualizar stock de materiales
     private function actualizarStock($id_material, $cantidad_cambio)
     {
         $stmt = $this->conexion->prepare("
@@ -88,7 +102,7 @@ class Prestamos
         return $stmt->execute();
     }
 
-    // 5️⃣ Obtener todos los préstamos con detalles
+    // Obtener todos los préstamos con detalles
     public function obtenerPrestamos()
     {
         $sql = "

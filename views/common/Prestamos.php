@@ -1,104 +1,80 @@
 <?php
+require_once __DIR__ . '/../../config/db.config.php';
+require_once __DIR__ . '/../../model/prestamos.php';
 session_start();
 
 if (!isset($_SESSION['usuario']) || !in_array($_SESSION['rol'], ['admin', 'prestamista'])) {
-    require_once __DIR__ . '/../login.php';
+    header('Location: ../login.php');
     exit();
 }
 
-require_once __DIR__ . '/../../config/db.config.php';
-require_once __DIR__ . '/../../model/Prestamos.php';
+$prestamos = new Prestamos($conexion);
+$historial = $prestamos->obtenerPrestamos();
 
-$prestamosModel = new Prestamos($conexion);
-$listaPrestamos = $prestamosModel->obtenerPrestamos(); // Necesita método en el modelo para listar
+// Obtener materiales disponibles para el select
+$materiales = $conexion->query("SELECT id, nombre, cantidad_disponible FROM materiales WHERE cantidad_disponible > 0");
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/asset/user/prestamo.css">
+    <title>Préstamos</title>
     <link rel="stylesheet" href="/asset/users/esqueleto.css">
-    <title>Historial de préstamos</title>
 </head>
-
 <body>
-    <div class="container">
-        <!-- Menú lateral izquierdo -->
-        <nav class="sidebar">
-            <?php
-            if ($_SESSION['rol'] === 'admin') {
-                require_once __DIR__ . '/../includes/menu_admin.php';
-            } elseif ($_SESSION['rol'] === 'prestamista') {
-                require_once __DIR__ . '/../includes/menu_prestamista.php';
-            }
-            ?>
-            <div class="logout">
-                <a href="/controller/logout.php" onclick="return confirm('¿Seguro que deseas cerrar sesión?')">
-                    <i class="fas fa-sign-out-alt"></i> Salir
-                </a>
-            </div>
-        </nav>
+    <h1>Registrar Préstamo</h1>
+    <form method="POST" action="../../controller/PrestamosController.php">
+        <input type="hidden" name="accion" value="prestar">
 
-        <!-- Contenido principal -->
-        <div class="main-content">
-            <div class="top-bar">
-                <img class="uaeh" src="/asset/img/logo_uaeh.png" alt="icono uaeh" width="150">
-                <span class="software-name">uaeh</span>
-                <h6>Bienvenido <?= htmlspecialchars($_SESSION['usuario']) ?></h6>
-                <i class="fas fa-user-circle avatar"></i>
-            </div>
+        <h3>Datos del solicitante</h3>
+        <select name="tipo" required>
+            <option value="">Seleccione tipo</option>
+            <option value="estudiante">Estudiante</option>
+            <option value="trabajador">Trabajador</option>
+        </select>
+        <input type="text" name="nombre_completo" placeholder="Nombre completo" required>
+        <input type="text" name="matricula" placeholder="Matrícula">
+        <input type="text" name="carrera" placeholder="Carrera">
+        <input type="text" name="lugar_trabajo" placeholder="Lugar de trabajo">
+        <input type="text" name="telefono" placeholder="Teléfono">
+        <input type="email" name="correo" placeholder="Correo">
 
-            <!-- Resto del contenido -->
-            <div class="content">
-                <h1 class="h1">Materiales prestados</h1>
+        <h3>Material a prestar</h3>
+        <select name="id_material" required>
+            <option value="">Seleccione material</option>
+            <?php while ($mat = $materiales->fetch_assoc()): ?>
+                <option value="<?= $mat['id'] ?>">
+                    <?= htmlspecialchars($mat['nombre']) ?> (Disponible: <?= $mat['cantidad_disponible'] ?>)
+                </option>
+            <?php endwhile; ?>
+        </select>
+        <input type="number" name="cantidad" placeholder="Cantidad" min="1" required>
 
-                <!-- Barra de búsqueda -->
-                <div>
-                    <p>Nombre del material:</p>
-                    <div style="position: relative;">
-                        <input type="text" id="materialName" placeholder="Buscar material..." style="padding-left: 30px; width: 50vh;">
-                        <i class="fa-solid fa-magnifying-glass"
-                            style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); color: gray;"></i>
-                    </div>
-                </div>
+        <button type="submit">Prestar</button>
+    </form>
 
-                <!-- Tabla -->
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Usuario</th>
-                            <th>Material prestado</th>
-                            <th>Fecha de préstamo</th>
-                            <th>Estado</th>
-                            <th>Cantidad</th>
-                            <th>Solicitante</th>
-                            <th>Finalización</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($prestamo = $listaPrestamos->fetch_assoc()): ?>
-                            <tr>
-                                <td><?= $prestamo['id'] ?></td>
-                                <td><?= htmlspecialchars($prestamo['usuario']) ?></td>
-                                <td><?= htmlspecialchars($prestamo['material']) ?></td>
-                                <td><?= $prestamo['fecha_prestamo'] ?></td>
-                                <td><?= $prestamo['estado'] ?></td>
-                                <td><?= $prestamo['cantidad'] ?></td>
-                                <td><?= htmlspecialchars($prestamo['solicitante']) ?></td>
-                                <td><?= $prestamo['fecha_devolucion'] ?? '—' ?></td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-    </div>
+    <h2>Historial de préstamos</h2>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Material</th>
+            <th>Cantidad</th>
+            <th>Prestado por</th>
+            <th>Solicitante</th>
+            <th>Fecha préstamo</th>
+            <th>Estado</th>
+        </tr>
+        <?php while ($row = $historial->fetch_assoc()): ?>
+        <tr>
+            <td><?= $row['id'] ?></td>
+            <td><?= $row['material'] ?></td>
+            <td><?= $row['cantidad'] ?></td>
+            <td><?= $row['prestado_por'] ?></td>
+            <td><?= $row['solicitante'] ?></td>
+            <td><?= $row['fecha_prestamo'] ?></td>
+            <td><?= $row['estado'] ?></td>
+        </tr>
+        <?php endwhile; ?>
+    </table>
 </body>
-
 </html>
