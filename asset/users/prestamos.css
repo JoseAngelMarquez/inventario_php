@@ -39,14 +39,21 @@ th{
     background-color: #7A0A14;
 }
 
-input{
+input,select{
     width: 50%;
     padding: 10px;
     margin: 8px 0 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
-option{
-    padding: 10px;
-    
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas del mismo ancho */
+    gap: 16px; /* Espacio entre columnas y filas */
+}
+
+.form-grid input,
+.form-grid select {
+    width: 100%; /* Ocupa todo el ancho de su columna */
 }

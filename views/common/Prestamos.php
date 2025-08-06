@@ -56,13 +56,13 @@ $materiales = $conexion->query("SELECT id, nombre, cantidad_disponible FROM mate
             <h1>Registrar Préstamo</h1>
             <form method="POST" action="../../controller/PrestamosController.php">
                 <input type="hidden" name="accion" value="prestar">
-
                 <h3>Datos del solicitante</h3>
                 <select name="tipo" id="tipo" required>
                     <option value="">Seleccione tipo</option>
                     <option value="estudiante">Estudiante</option>
                     <option value="trabajador">Trabajador</option>
                 </select>
+                <div class="form-grid">
 
                 <div id="campoNombre">
                 <input type="text" name="nombre_completo" placeholder="Nombre completo" required>
@@ -82,9 +82,10 @@ $materiales = $conexion->query("SELECT id, nombre, cantidad_disponible FROM mate
 
                 <input type="text" name="telefono" placeholder="Teléfono">
                 <input type="email" name="correo" placeholder="Correo">
-
-
+                </div>
                 <h3>Material a prestar</h3>
+                <div class="form-grid">
+
                 <select name="id_material" required>
                     <option value="">Seleccione material</option>
                     <?php while ($mat = $materiales->fetch_assoc()): ?>
@@ -93,11 +94,14 @@ $materiales = $conexion->query("SELECT id, nombre, cantidad_disponible FROM mate
                         </option>
                     <?php endwhile; ?>
                 </select>
+                
+                <div>
                 <input type="number" name="cantidad" placeholder="Cantidad" min="1" required>
-
-                <button type="submit">Prestar</button>
+                </div>
+                
+</div>
+                <button class="btn-table" type="submit">Prestar</button>
             </form>
-
             <h2>Historial de préstamos</h2>
             <table border="1">
                 <tr>
