@@ -25,7 +25,7 @@ if (isset($_GET['editar'])) {
     <meta charset="UTF-8" />
     <title>Gestión de Materiales</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/asset/user/prestamo.css">
+    <link rel="stylesheet" href="/asset/users/contenido.css">
     <link rel="stylesheet" href="/asset/users/esqueleto.css">
     <link rel="stylesheet" href="/asset/users/materiales.css">
 
@@ -111,15 +111,21 @@ if (isset($_GET['editar'])) {
                                         <input type="hidden" name="editar" value="<?= $row['id'] ?>" />
                                         <button type="submit" class="btn-table">Editar</button>
                                     </form> |
-                                    <form action="../../controller/material_controller.php" method="GET" style="display:inline-block;">
+                                    <form action="../../controller/material_controller.php" method="GET"
+                                        style="display:inline-block;">
                                         <input type="hidden" name="eliminar" value="<?= $row['id'] ?>" />
-                                        <button type="submit" class="btn-table" onclick="return confirm('¿Eliminar este material?')">Eliminar</button>
+                                        <button type="submit" class="btn-table"
+                                            onclick="return confirm('¿Eliminar este material?')">Eliminar</button>
                                     </form>
                                 </td>
                             </tr>
                         <?php endwhile; ?>
+
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
