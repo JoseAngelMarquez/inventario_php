@@ -10,7 +10,7 @@ require_once __DIR__ . '/../../config/db.config.php';
 require_once __DIR__ . '/../../model/Prestamos.php';
 
 $prestamosModel = new Prestamos($conexion);
-$listaPrestamos = $prestamosModel->obtenerTodos(); // Necesita método en el modelo para listar
+$listaPrestamos = $prestamosModel->obtenerPrestamos(); // Necesita método en el modelo para listar
 ?>
 
 <!DOCTYPE html>
