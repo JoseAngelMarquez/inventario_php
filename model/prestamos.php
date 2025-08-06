@@ -116,5 +116,31 @@ class Prestamos
         ";
         return $this->conexion->query($sql);
     }
+    // Obtener datos del préstamo (nombre y correo del solicitante)
+public function obtenerDatosPrestamo($id_prestamo)
+{
+    $sql = "
+        SELECT s.nombre_completo, s.correo
+        FROM prestamos p
+        INNER JOIN solicitantes s ON p.id_solicitante = s.id
+        WHERE p.id = ?
+        LIMIT 1
+    ";
+    $stmt = $this->conexion->prepare($sql);
+    if (!$stmt) {
+        error_log("Error preparando consulta obtenerDatosPrestamo: " . $this->conexion->error);
+        return null;
+    }
+    $stmt->bind_param("i", $id_prestamo);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    if ($resultado && $resultado->num_rows > 0) {
+        return $resultado->fetch_assoc();
+    }
+    return null;
 }
+
+}
+
+
 ?>
