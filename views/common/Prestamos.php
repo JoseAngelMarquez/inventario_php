@@ -121,7 +121,7 @@ $materiales = $conexion->query("SELECT id, nombre, cantidad_disponible FROM mate
                                 <form method="POST" action="../../controller/PrestamosController.php" style="display:inline;">
                                     <input type="hidden" name="accion" value="finalizar">
                                     <input type="hidden" name="id_prestamo" value="<?= $row['id'] ?>">
-                                    <button type="submit"
+                                    <button class="btn-table" type="submit"
                                         onclick="return confirm('¿Seguro que deseas finalizar este préstamo?')">
                                         Finalizar
                                     </button>
