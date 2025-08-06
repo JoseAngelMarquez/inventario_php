@@ -64,8 +64,9 @@ $materiales = $conexion->query("SELECT id, nombre, cantidad_disponible FROM mate
                     <option value="trabajador">Trabajador</option>
                 </select>
 
+                <div id="campoNombre">
                 <input type="text" name="nombre_completo" placeholder="Nombre completo" required>
-
+                </div>
                 <!-- Campos para estudiantes -->
                 <div id="campoMatricula">
                     <input type="text" name="matricula" placeholder="Matrícula">
